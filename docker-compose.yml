@@ -1,0 +1,103 @@
+version: "3"
+
+services:
+
+  hadoop-namenode:
+    container_name: dmx-hadoop-namenode
+    hostname: hadoop-namenode
+    image: dimajix/hadoop:latest
+    build: 
+      context: .
+      args:
+        http_proxy: ${http_proxy}
+        https_proxy: ${https_proxy}
+    command: namenode
+    env_file:
+      - docker-compose.env
+    environment:
+      - http_proxy=${http_proxy}
+      - https_proxy=${https_proxy}
+      - HDFS_NAMENODE_DIRS=/mnt/nameNode1,/mnt/nameNode2
+    volumes:
+      - /tmp/disk0/hadoopLogs:/var/log/hadoop
+      - /tmp/disk1/hadoopNameNode1:/mnt/nameNode1
+      - /tmp/disk2/hadoopNameNode2:/mnt/nameNode2
+    expose:
+      - 50070
+      - 8020
+
+  hadoop-resourcemanager:
+    container_name: dmx-hadoop-resourcemanager
+    hostname: hadoop-resourcemanager
+    image: dimajix/hadoop:latest
+    command: resourcemanager
+    env_file:
+      - docker-compose.env
+    environment:
+      - http_proxy=${http_proxy}
+      - https_proxy=${https_proxy}
+    volumes:
+      - /tmp/disk0/hadoopLogs:/var/log/hadoop
+    links:
+      - hadoop-namenode
+    expose:      
+      - 8030 
+      - 8031 
+      - 8032 
+      - 8033  
+      - 8088
+
+  hadoop-historyserver:
+    container_name: dmx-hadoop-historyserver
+    hostname: hadoop-historyserver
+    image: dimajix/hadoop:latest
+    command: historyserver
+    env_file:
+      - docker-compose.env
+    environment:
+      - http_proxy=${http_proxy}
+      - https_proxy=${https_proxy}
+    volumes:
+      - /tmp/disk0/hadoopLogs:/var/log/hadoop
+    links:
+      - hadoop-namenode
+    expose:
+      - 10020
+      - 10033
+      - 19888
+
+  hadoop-slave-0:
+    container_name: dmx-hadoop-slave-0
+    hostname: hadoop-slave-0
+    image: dimajix/hadoop:latest
+    command: slavenode
+    env_file:
+      - docker-compose.env
+    environment:
+      - http_proxy=${http_proxy}
+      - https_proxy=${https_proxy}
+      - HDFS_DATANODE_DIRS=/mnt/dataNode1,/mnt/dataNode2
+      - YARN_NODEMANAGER_LOCALDIRS=/mnt/nodeManager1/intermediate,/mnt/nodeManager2/intermediate
+      - YARN_NODEMANAGER_LOGDIRS=/mnt/nodeManager1/logs,/mnt/nodeManager2/logs
+    volumes:
+      - /tmp/disk0/hadoopLogs:/var/log/hadoop
+      - /tmp/disk1/hadoopDataNode1:/mnt/dataNode1
+      - /tmp/disk2/hadoopDataNode2:/mnt/dataNode2
+      - /tmp/disk1/nodeManager1:/mnt/nodeManager1
+      - /tmp/disk2/nodeManager2:/mnt/nodeManager2
+    links:
+      - hadoop-namenode
+    expose:
+      - 2122
+      - 8040
+      - 8042
+      - 49707
+      - 50010 
+      - 50020
+      - 50075
+
+networks:
+  default:
+    external:
+      name: dimajix
+

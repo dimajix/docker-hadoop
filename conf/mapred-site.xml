@@ -1,0 +1,59 @@
+<configuration>
+
+    <!-- BOF HistoryServer ************************************************ -->
+    <property>
+        <!-- MapReduce JobHistory Server IPC host:port -->
+        <name>mapreduce.jobhistory.address</name>
+        <value>[% MAPREDUCE_HISTORYSERVER_HOSTNAME %]:10020</value>
+    </property>
+
+    <property>
+        <!-- MapReduce JobHistory Server Web UI host:port -->
+        <name>mapreduce.jobhistory.webapp.address</name>
+        <value>0.0.0.0:19888</value>
+    </property>
+
+    <property>
+        <name>mapreduce.jobhistory.intermediate-done-dir</name>
+        <value>/user/historyServer/tmp</value>
+    </property>
+
+    <property>
+        <name>mapreduce.jobhistory.done-dir</name>
+        <value>/user/historyServer/done</value>
+    </property>
+    <!-- EOF HistoryServer ************************************************ -->
+
+    <!-- BOF NodeManager ************************************************ -->
+    <property>
+        <!-- The runtime framework for executing MapReduce jobs. Can be one of local, classic or yarn. -->
+        <name>mapreduce.framework.name</name>
+        <value>yarn</value>
+    </property>
+
+    <property>
+        <!-- The total amount of buffer memory to use while sorting files, in megabytes. -->
+        <name>mapreduce.task.io.sort.mb</name>
+        <value>512</value>
+    </property>
+
+    <property>
+        <!-- The number of streams to merge at once while sorting files. -->
+        <name>mapreduce.task.io.sort.factor</name>
+        <value>20</value>
+    </property>
+
+    <property>
+        <!-- The default number of parallel transfers run by reduce during the copy(shuffle) phase. -->
+        <name>mapreduce.reduce.shuffle.parallelcopies</name>
+        <value>10</value>
+    </property>
+
+    <property>
+        <!-- The replication level for submitted job files. -->
+        <name>mapreduce.client.submit.file.replication</name>
+        <value>[% HDFS_REPLICATION_FACTOR %]</value>
+    </property>
+    <!-- EOF NodeManager ************************************************ -->
+
+</configuration>

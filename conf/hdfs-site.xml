@@ -1,0 +1,49 @@
+<configuration>
+	
+	<!-- BOF DataNode **************************************************** -->
+	<property>
+        <!-- Determines where on the local filesystem an DFS data node should store its blocks. -->
+		<name>dfs.datanode.data.dir</name>
+		<value>[% HDFS_DATANODE_DIRS %]</value>
+	</property>
+	<!-- EOF DataNode **************************************************** -->
+
+	<!-- BOF NameNode **************************************************** -->
+	<property>
+		<!-- general default replication -->
+        <name>dfs.replication</name>
+        <value>[% HDFS_REPLICATION_FACTOR %]</value>
+    </property>
+    <property>
+    	<!-- max number of replications of file that user can set on upload into hdfs -->
+        <name>dfs.replication.max</name>
+        <value>[% HDFS_REPLICATION_FACTOR %]</value>
+    </property>
+    <property>
+    	<!-- minimum succesfully written replicas to accept file as uploaded -->
+        <name>dfs.namenode.replication.min</name>
+        <value>1</value>
+    </property>
+    <property>
+    	<!-- HDFS does not check user permissions (however linux does it anyway) -->
+        <name>dfs.permissions.enabled</name>
+        <value>false</value>
+    </property>
+	<property>
+        <!-- Determines where on the local filesystem the DFS name node should store the name table(fsimage). -->
+		<name>dfs.namenode.name.dir</name>
+		<value>[% HDFS_NAMENODE_DIRS %]</value>
+	</property>
+	<property>
+        <!-- The default block size for new files, in bytes.  -->
+		<name>dfs.blocksize</name>
+		<value>268435456</value>
+	</property>
+	<property>
+        <!-- The number of server threads for the namenode. -->
+		<name>dfs.namenode.handler.count</name>
+		<value>100</value>
+	</property>
+	<!-- BOF NameNode **************************************************** -->
+
+</configuration>
