@@ -2,9 +2,11 @@ FROM dimajix/java:oracle-8
 MAINTAINER k.kupferschmidt@dimajix.de
 
 ARG BUILD_HADOOP_VERSION=2.7.3
+ARG BUILD_ALLUXIO_VERSION=1.4.0
 
 # Set Hadoop and Java environment
-ENV HADOOP_HOME=/opt/hadoop \
+ENV ALLUXIO_HOME=/opt/alluxio \
+    HADOOP_HOME=/opt/hadoop \
 	HADOOP_PREFIX=/opt/hadoop \
 	HADOOP_CONF_DIR=/etc/hadoop \
     HADOOP_LOG_DIR=/var/log/hadoop \
@@ -27,6 +29,13 @@ RUN curl -s http://www.eu.apache.org/dist/hadoop/common/hadoop-${BUILD_HADOOP_VE
 #    && mkdir -p $HADOOP_PREFIX/lib/native \
 #    && curl -L https://github.com/sequenceiq/docker-hadoop-build/releases/download/v${BUILD_HADOOP_VERSION}/hadoop-native-64-${BUILD_HADOOP_VERSION}.tgz | tar -xz -C $HADOOP_PREFIX/lib/native
 
+# Download and install Alluxio client
+RUN curl -sL --retry 3 "http://downloads.alluxio.org/downloads/files/${BUILD_ALLUXIO_VERSION}/alluxio-${BUILD_ALLUXIO_VERSION}-hadoop2.7-bin.tar.gz" \
+  | tar xz -C /opt \
+ && ln -s /opt/alluxio-${BUILD_ALLUXIO_VERSION} ${ALLUXIO_HOME} \
+ && ln -s /opt/alluxio/core/client/target/alluxio-core-client-1.4.0-jar-with-dependencies.jar ${HADOOP_PREFIX}/share/hadoop/common/lib \
+ && chown -R root:root ${ALLUXIO_HOME}
+
 # setup environment
 ENV PATH=$PATH:$HADOOP_HOME/bin \
     LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HADOOP_HOME/lib/native
@@ -38,4 +47,3 @@ COPY conf/ /opt/docker/conf/hadoop/
 
 ENTRYPOINT ["/opt/docker/bin/entrypoint.sh"]
 CMD bash
-

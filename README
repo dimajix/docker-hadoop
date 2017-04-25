@@ -1,5 +1,7 @@
 # Docker Hadoop
 
+This image provides Docker containers for Hadoop including support for Alluxio.
+
 ## Configuration
 
 
