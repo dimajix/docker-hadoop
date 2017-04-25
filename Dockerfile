@@ -33,7 +33,7 @@ RUN curl -s http://www.eu.apache.org/dist/hadoop/common/hadoop-${BUILD_HADOOP_VE
 RUN curl -sL --retry 3 "http://downloads.alluxio.org/downloads/files/${BUILD_ALLUXIO_VERSION}/alluxio-${BUILD_ALLUXIO_VERSION}-hadoop2.7-bin.tar.gz" \
   | tar xz -C /opt \
  && ln -s /opt/alluxio-${BUILD_ALLUXIO_VERSION} ${ALLUXIO_HOME} \
- && ln -s /opt/alluxio/core/client/target/alluxio-core-client-1.4.0-jar-with-dependencies.jar ${HADOOP_PREFIX}/share/hadoop/common/lib \
+ && ln -s /opt/alluxio/core/client/target/alluxio-core-client-${BUILD_ALLUXIO_VERSION}-jar-with-dependencies.jar ${HADOOP_PREFIX}/share/hadoop/common/lib \
  && chown -R root:root ${ALLUXIO_HOME}
 
 # setup environment
