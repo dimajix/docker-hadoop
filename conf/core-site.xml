@@ -1,8 +1,39 @@
-  <configuration>
-      <property>
-          <!--The name of the default file system.-->
-          <name>fs.defaultFS</name>
-          <value>hdfs://[% HDFS_NAMENODE_HOSTNAME %]:8020</value>
-      </property>
-  </configuration>
+<configuration>
+    <property>
+        <!--The name of the default file system.-->
+        <name>fs.defaultFS</name>
+        <value>[% HDFS_DEFAULT_FS %]</value>
+    </property>
+
+    <!-- S3 relates setting -->
+    <property>
+        <name>fs.s3.awsAccessKeyId</name>
+        <value>[% AWS_ACCESS_KEY_ID %]</value>
+    </property>
+    <property>
+        <name>fs.s3.awsSecretAccessKey</name>
+        <value>[% AWS_SECRET_ACCESS_KEY %]</value>
+    </property>
+
+    <property>
+        <name>fs.s3a.impl</name>
+        <value>org.apache.hadoop.fs.s3a.S3AFileSystem</value>
+    </property>
+    <property>
+        <name>fs.s3a.access.key</name>
+        <value>[% AWS_ACCESS_KEY_ID %]</value>
+    </property>
+    <property>
+        <name>fs.s3a.secret.key</name>
+        <value>[% AWS_SECRET_ACCESS_KEY %]</value>
+    </property>
+    <property>
+        <name>fs.s3a.proxy.host</name>
+        <value>[% S3_PROXY_HOST %]</value>
+    </property>
+    <property>
+        <name>fs.s3a.proxy.port</name>
+        <value>[% S3_PROXY_PORT %]</value>
+    </property>
+</configuration>
 
