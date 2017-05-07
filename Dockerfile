@@ -1,4 +1,4 @@
-FROM dimajix/java:oracle-8
+FROM dimajix/jre:oracle-8
 MAINTAINER k.kupferschmidt@dimajix.de
 
 ARG BUILD_HADOOP_VERSION=2.7.3
@@ -36,14 +36,14 @@ RUN curl -sL --retry 3 "http://downloads.alluxio.org/downloads/files/${BUILD_ALL
  && ln -s /opt/alluxio/core/client/target/alluxio-core-client-${BUILD_ALLUXIO_VERSION}-jar-with-dependencies.jar ${HADOOP_PREFIX}/share/hadoop/common/lib \
  && chown -R root:root ${ALLUXIO_HOME}
 
-# setup environment
-ENV PATH=$PATH:$HADOOP_HOME/bin \
-    LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HADOOP_HOME/lib/native
-
 # copy configs and binaries
 COPY bin/ /opt/docker/bin/
 COPY libexec/ /opt/docker/libexec/
 COPY conf/ /opt/docker/conf/hadoop/
+
+# setup environment
+ENV PATH=$PATH:$HADOOP_HOME/bin \
+    LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HADOOP_HOME/lib/native
 
 ENTRYPOINT ["/opt/docker/bin/entrypoint.sh"]
 CMD bash
