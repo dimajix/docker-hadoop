@@ -20,6 +20,11 @@ RUN curl -s http://www.eu.apache.org/dist/hadoop/common/hadoop-${BUILD_HADOOP_VE
     | tar -xz -C /opt \
     && ln -s hadoop-${BUILD_HADOOP_VERSION} ${HADOOP_PREFIX} \
     && ln -s ${HADOOP_PREFIX}/etc/hadoop /etc/hadoop \
+    && ln -s $HADOOP_HOME/share/hadoop/tools/lib/jackson-annotations-2.*.jar $HADOOP_HOME/share/hadoop/common/lib \
+    && ln -s $HADOOP_HOME/share/hadoop/tools/lib/jackson-core-2.*.jar $HADOOP_HOME/share/hadoop/common/lib \
+    && ln -s $HADOOP_HOME/share/hadoop/tools/lib/jackson-databind-2.*.jar $HADOOP_HOME/share/hadoop/common/lib \
+    && ln -s $HADOOP_HOME/share/hadoop/tools/lib/hadoop-aws-*.jar $HADOOP_HOME/share/hadoop/common/lib \
+    && ln -s $HADOOP_HOME/share/hadoop/tools/lib/aws-java-sdk-*.jar $HADOOP_HOME/share/hadoop/common/lib \
     && mkdir -p ${HADOOP_LOG_DIR} \
     && mkdir -p ${YARN_LOG_DIR} \
     && mkdir -p ${HTTPFS_LOG}
@@ -30,11 +35,11 @@ RUN curl -s http://www.eu.apache.org/dist/hadoop/common/hadoop-${BUILD_HADOOP_VE
 #    && curl -L https://github.com/sequenceiq/docker-hadoop-build/releases/download/v${BUILD_HADOOP_VERSION}/hadoop-native-64-${BUILD_HADOOP_VERSION}.tgz | tar -xz -C $HADOOP_PREFIX/lib/native
 
 # Download and install Alluxio client
-RUN curl -sL --retry 3 "http://downloads.alluxio.org/downloads/files/${BUILD_ALLUXIO_VERSION}/alluxio-${BUILD_ALLUXIO_VERSION}-hadoop2.7-bin.tar.gz" \
-  | tar xz -C /opt \
- && ln -s /opt/alluxio-${BUILD_ALLUXIO_VERSION} ${ALLUXIO_HOME} \
- && ln -s /opt/alluxio/core/client/target/alluxio-core-client-${BUILD_ALLUXIO_VERSION}-jar-with-dependencies.jar ${HADOOP_PREFIX}/share/hadoop/common/lib \
- && chown -R root:root ${ALLUXIO_HOME}
+#RUN curl -sL --retry 3 "http://downloads.alluxio.org/downloads/files/${BUILD_ALLUXIO_VERSION}/alluxio-${BUILD_ALLUXIO_VERSION}-hadoop2.7-bin.tar.gz" \
+#  | tar xz -C /opt \
+# && ln -s /opt/alluxio-${BUILD_ALLUXIO_VERSION} ${ALLUXIO_HOME} \
+# && ln -s /opt/alluxio/core/client/target/alluxio-core-client-${BUILD_ALLUXIO_VERSION}-jar-with-dependencies.jar ${HADOOP_PREFIX}/share/hadoop/common/lib \
+# && chown -R root:root ${ALLUXIO_HOME}
 
 # copy configs and binaries
 COPY bin/ /opt/docker/bin/

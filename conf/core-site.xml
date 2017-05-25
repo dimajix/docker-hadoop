@@ -45,6 +45,10 @@
         <value>[% AWS_SECRET_ACCESS_KEY %]</value>
     </property>
     <property>
+        <name>fs.s3a.endpoint</name>
+        <value>[% S3_ENDPOINT %]</value>
+    </property>
+    <property>
         <name>fs.s3a.proxy.host</name>
         <value>[% S3_PROXY_HOST %]</value>
     </property>
