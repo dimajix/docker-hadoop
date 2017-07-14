@@ -2,7 +2,7 @@ FROM dimajix/jre:oracle-8
 MAINTAINER k.kupferschmidt@dimajix.de
 
 ARG BUILD_HADOOP_VERSION=2.8.0
-ARG BUILD_ALLUXIO_VERSION=1.4.0
+ARG BUILD_ALLUXIO_VERSION=1.5.0
 
 # Set Hadoop and Java environment
 ENV ALLUXIO_HOME=/opt/alluxio \
@@ -36,13 +36,12 @@ RUN curl -s http://www.eu.apache.org/dist/hadoop/common/hadoop-${BUILD_HADOOP_VE
 #    && curl -L https://github.com/sequenceiq/docker-hadoop-build/releases/download/v${BUILD_HADOOP_VERSION}/hadoop-native-64-${BUILD_HADOOP_VERSION}.tgz | tar -xz -C $HADOOP_PREFIX/lib/native
 
 # Download and install Alluxio client
-RUN curl -sL --retry 3 "http://downloads.alluxio.org/downloads/files/${BUILD_ALLUXIO_VERSION}/alluxio-${BUILD_ALLUXIO_VERSION}-hadoop2.7-bin.tar.gz" \
+RUN curl -sL --retry 3 "http://downloads.alluxio.org/downloads/files/${BUILD_ALLUXIO_VERSION}/alluxio-${BUILD_ALLUXIO_VERSION}-hadoop-2.8-bin.tar.gz" \
    | tar xz -C /opt \
-   && ln -s /opt/alluxio-${BUILD_ALLUXIO_VERSION} ${ALLUXIO_HOME} \
+   && ln -s /opt/alluxio-${BUILD_ALLUXIO_VERSION}-hadoop-2.8 ${ALLUXIO_HOME} \
    && chown -R root:root ${ALLUXIO_HOME} \
-   && curl -sL --retry 3 "http://repo.dimajix.net/alluxio/alluxio-client-${BUILD_ALLUXIO_VERSION}-hadoop-${BUILD_HADOOP_VERSION}-jar-with-dependencies.jar" \
-   > ${HADOOP_PREFIX}/share/hadoop/common/lib/alluxio-client-${BUILD_ALLUXIO_VERSION}-hadoop-${BUILD_HADOOP_VERSION}-jar-with-dependencies.jar \
-   && rm -f  ${HADOOP_PREFIX}/share/hadoop/common/lib/slf4j-log4j12*.jar
+   && rm -f  ${HADOOP_PREFIX}/share/hadoop/common/lib/slf4j-log4j12*.jar \
+   && ln -s /opt/alluxio/client/hadoop/alluxio-${BUILD_ALLUXIO_VERSION}-hadoop-client.jar ${HADOOP_PREFIX}/share/hadoop/common/lib/
 
 # copy configs and binaries
 COPY bin/ /opt/docker/bin/
