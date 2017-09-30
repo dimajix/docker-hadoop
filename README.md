@@ -11,18 +11,43 @@ version of this image (Hadoop 2.8.0), a custom built Alluxio client is installed
     
 ## Configuration
 
-The Hadoop image provides lots of configuration options.
+The Hadoop image provides lots of configuration options. The most important ones are:
+
+    HDFS_NAMENODE_PORT=8020
+    HDFS_NAMENODE_HOSTNAME=hadoop-namenode
+    HDFS_DEFAULT_FS=hdfs://hadoop-namenode:8020
+    HDFS_DATANODE_DIRS=/mnt/dataNode1,/mnt/dataNode2
+    HDFS_NAMENODE_DIRS=/mnt/nameNode1,/mnt/nameNode2
+
+    YARN_RESOURCEMANAGER_HOSTNAME=hadoop-resourcemanager
+    YARN_NODEMANAGER_CORES=32
+    YARN_NODEMANAGER_MEMORY=65536
+    YARN_NODEMANAGER_LOCALDIRS
+
+    MAPRED_HISTORYSERVER_HOSTNAME=hadoop-historyserver
+
 
 # Deployment
 
 ## Minimum Configuration
+
+You need to specify at least the following environment variables:
 
     YARN_RESOURCEMANAGER_HOSTNAME=hadoop-resourcemanager
     MAPRED_HISTORYSERVER_HOSTNAME=hadoop-historyserver
     YARN_NODEMANAGER_CORES=32
     YARN_NODEMANAGER_MEMORY=65536
     HDFS_NAMENODE_HOSTNAME=hadoop-namenode
+    
+Then you can setup a complete Hadoop cluster using the following commands:
+    
+* namenode - Runs Hadoop Namenode
+* resourcemanager - Runs Hadoop Resource Manager
+* historyserver - Runs Hadoop History Server
+* slavenode - Runs a Hadoop slave node containg node manager and data node
 
+You require exactly one namenode and one resourcemanager and at least one slavenode. You can scale up by running
+multiple slave nodes.
 
 ## S3 properties
 
