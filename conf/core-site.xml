@@ -22,6 +22,13 @@
         <description>The Alluxio AbstractFileSystem (Hadoop 2.x)</description>
     </property>
 
+    <!-- S3A filesystem -->
+    <property>
+        <name>fs.s3a.impl</name>
+        <value>org.apache.hadoop.fs.s3a.S3AFileSystem</value>
+    </property>
+
+[% IF AWS_ACCESS_KEY_ID %]
     <!-- S3 relates setting -->
     <property>
         <name>fs.s3.awsAccessKeyId</name>
@@ -31,11 +38,9 @@
         <name>fs.s3.awsSecretAccessKey</name>
         <value>[% AWS_SECRET_ACCESS_KEY %]</value>
     </property>
+[% END %]
 
-    <property>
-        <name>fs.s3a.impl</name>
-        <value>org.apache.hadoop.fs.s3a.S3AFileSystem</value>
-    </property>
+[% IF AWS_ACCESS_KEY_ID %]
     <property>
         <name>fs.s3a.access.key</name>
         <value>[% AWS_ACCESS_KEY_ID %]</value>
@@ -44,10 +49,14 @@
         <name>fs.s3a.secret.key</name>
         <value>[% AWS_SECRET_ACCESS_KEY %]</value>
     </property>
+[% END %]
+[% IF S3_ENDPOINT %]
     <property>
         <name>fs.s3a.endpoint</name>
         <value>[% S3_ENDPOINT %]</value>
     </property>
+[% END %]
+[% IF S3_PROXY_HOST %]
     <property>
         <name>fs.s3a.proxy.host</name>
         <value>[% S3_PROXY_HOST %]</value>
@@ -56,5 +65,6 @@
         <name>fs.s3a.proxy.port</name>
         <value>[% S3_PROXY_PORT %]</value>
     </property>
+[% END %]
 </configuration>
 
