@@ -1,8 +1,8 @@
 FROM dimajix/jre:oracle-8
 MAINTAINER k.kupferschmidt@dimajix.de
 
-ARG BUILD_HADOOP_VERSION=2.8.1
-ARG BUILD_ALLUXIO_VERSION=1.5.0
+ARG BUILD_HADOOP_VERSION=2.8.3
+ARG BUILD_ALLUXIO_VERSION=1.6.1
 
 # Set Hadoop and Java environment
 ENV ALLUXIO_HOME=/opt/alluxio \
