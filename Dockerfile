@@ -16,7 +16,7 @@ ENV ALLUXIO_HOME=/opt/alluxio \
     HTTPFS_LOG=/var/log/httpfs
 
 # Download and install Hadoop
-RUN curl -s http://www.eu.apache.org/dist/hadoop/common/hadoop-${BUILD_HADOOP_VERSION}/hadoop-${BUILD_HADOOP_VERSION}.tar.gz \
+RUN curl -svL http://www.eu.apache.org/dist/hadoop/common/hadoop-${BUILD_HADOOP_VERSION}/hadoop-${BUILD_HADOOP_VERSION}.tar.gz \
     | tar -xz -C /opt \
     && ln -s hadoop-${BUILD_HADOOP_VERSION} ${HADOOP_PREFIX} \
     && ln -s ${HADOOP_PREFIX}/etc/hadoop /etc/hadoop \
@@ -28,7 +28,8 @@ RUN curl -s http://www.eu.apache.org/dist/hadoop/common/hadoop-${BUILD_HADOOP_VE
     && ln -s $HADOOP_HOME/share/hadoop/tools/lib/joda-time-*.jar $HADOOP_HOME/share/hadoop/common/lib \
     && mkdir -p ${HADOOP_LOG_DIR} \
     && mkdir -p ${YARN_LOG_DIR} \
-    && mkdir -p ${HTTPFS_LOG}
+    && mkdir -p ${HTTPFS_LOG} \
+    && rm -rf $HADOOP_HOME/share/doc
 
 # download and install Hadoop native support
 #RUN rm -rf $HADOOP_PREFIX/lib/native \
@@ -36,7 +37,7 @@ RUN curl -s http://www.eu.apache.org/dist/hadoop/common/hadoop-${BUILD_HADOOP_VE
 #    && curl -L https://github.com/sequenceiq/docker-hadoop-build/releases/download/v${BUILD_HADOOP_VERSION}/hadoop-native-64-${BUILD_HADOOP_VERSION}.tgz | tar -xz -C $HADOOP_PREFIX/lib/native
 
 # Download and install Alluxio client
-RUN curl -sL --retry 3 "http://downloads.alluxio.org/downloads/files/${BUILD_ALLUXIO_VERSION}/alluxio-${BUILD_ALLUXIO_VERSION}-hadoop-2.8-bin.tar.gz" \
+RUN curl -svL --retry 3 "http://downloads.alluxio.org/downloads/files/${BUILD_ALLUXIO_VERSION}/alluxio-${BUILD_ALLUXIO_VERSION}-hadoop-2.8-bin.tar.gz" \
    | tar xz -C /opt \
    && ln -s /opt/alluxio-${BUILD_ALLUXIO_VERSION}-hadoop-2.8 ${ALLUXIO_HOME} \
    && chown -R root:root ${ALLUXIO_HOME} \
