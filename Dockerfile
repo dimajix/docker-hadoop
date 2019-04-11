@@ -1,8 +1,7 @@
 FROM dimajix/jre:oracle-8
 MAINTAINER k.kupferschmidt@dimajix.de
 
-ARG BUILD_HADOOP_VERSION=2.8.4
-ARG BUILD_ALLUXIO_VERSION=1.6.1
+ARG BUILD_HADOOP_VERSION=2.8.5
 
 # Set Hadoop and Java environment
 ENV HADOOP_HOME=/opt/hadoop \
@@ -15,7 +14,7 @@ ENV HADOOP_HOME=/opt/hadoop \
     HTTPFS_LOG=/var/log/httpfs
 
 # Download and install Hadoop
-RUN curl -svL http://www.eu.apache.org/dist/hadoop/common/hadoop-${BUILD_HADOOP_VERSION}/hadoop-${BUILD_HADOOP_VERSION}.tar.gz \
+RUN curl -sL http://www.eu.apache.org/dist/hadoop/common/hadoop-${BUILD_HADOOP_VERSION}/hadoop-${BUILD_HADOOP_VERSION}.tar.gz \
     | tar -xz -C /opt \
     && ln -s hadoop-${BUILD_HADOOP_VERSION} ${HADOOP_PREFIX} \
     && ln -s ${HADOOP_PREFIX}/etc/hadoop /etc/hadoop \
